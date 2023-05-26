@@ -9,6 +9,23 @@ type Props = {
   };
 };
 
+export async function generateMetadata({ params: { blogId } }: Props) {
+  const blogs = getBlogsData();
+
+  const blog = blogs.find((blog) => blog.id === blogId);
+
+  if (!blog) {
+    return {
+      title: "Page Not Found",
+    };
+  }
+
+  return {
+    title: blog.title,
+    description: `Created for ${blog.title}`,
+  };
+}
+
 export default async function Blog({ params: { blogId } }: Props) {
   const blogs = getBlogsData();
 
@@ -20,7 +37,7 @@ export default async function Blog({ params: { blogId } }: Props) {
   return (
     <>
       <section className="p-10 prose max-w-full">
-        <div className="pb-6">
+        <div className="pb-2">
           <h1 className="mb-0 pb-1">{blog.title}</h1>
           <h6>{formattedDate}</h6>
         </div>
@@ -33,4 +50,12 @@ export default async function Blog({ params: { blogId } }: Props) {
       </section>
     </>
   );
+}
+
+export async function generateStaticParams() {
+  const blogs = getBlogsData();
+
+  return blogs.map((blog) => ({
+    blogId: blog.id,
+  }));
 }
