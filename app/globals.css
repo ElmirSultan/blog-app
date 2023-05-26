@@ -2,7 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-.prose li::after {
-  color: red !important; /* Replace "red" with your desired color */
-}
 
